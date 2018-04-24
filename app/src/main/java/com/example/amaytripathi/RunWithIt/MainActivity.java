@@ -124,8 +124,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 startButton.setVisibility(View.VISIBLE);
                 playShown = true;
                 terminate();
-                speed.setText("xxx");
-                tv_steps.setText("x");
+                speed.setText("000");
+                tv_steps.setText("X");
+                durationTime.setText("0:00");
             }
         }
     };
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         songSPM = 150;
         first = true;
         lastSPM = 0;
-        count = 0;
+        count = -1;
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.hello);
     }
 
@@ -171,7 +172,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                count++;
                                 int lastSPMUse = lastSPM;
                                 if (count % 20 == 0){
                                     if (lastSPMUse <= 150 && lastSPMUse < songSPM){
@@ -203,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                         mediaPlayer.start();
                                     }
                                 }
+                                count++;
                                 lastSPM = findSpeed();
                                 String zero = "";
                                 if (count % 60 < 10){
@@ -218,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 }
                                 lastSteps = lastSPM;
                                 if (repeats >= 4){
-                                    speed.setText("0");
+                                    speed.setText("000");
                                 }
                                 else{
                                     speed.setText(String.valueOf(lastSPM));
@@ -314,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             lastRan = total - lastTotal;
             lastTotal = total;
             if (lastTotal == 0){
-                tv_steps.setText("---");
+                tv_steps.setText("X");
             }
             else{
                 tv_steps.setText(String.valueOf(lastTotal));
